@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+  <div id="player"></div>
+
+  <script>
+    // Cargamos el API IFrame de manera asíncrona
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+
+    // Accedemos al script de índice 0, que es el primero que aparece en el HTML
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    // insertamos el tag del Script del API antes de el script inicial
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // Creamos una variable player, que tendrá el objeto del reproductor
+    var player;
+
+    // definimos una función que se ejecutará cuando el API del Player esté listo
+    function onYouTubeIframeAPIReady() {
+      // Creamos el reproductor con los valores que necesitemos
+      // Existen muchas otras propiedades. Consulta la documentación
+      player = new YT.Player('player', {
+        height: '360',
+        width: '640',
+        videoId: 'yKXNPWxWx9o',
+      });
+    }
+  </script>
+
+  <button class="change_video" data-video="UCKhrkMZ8lU">Cambiar vídeo</button>
+  <button class="change_video" data-video="aUuYGDK6Oio">Cambiar vídeo 2</button>
+  <button class="change_video" data-video="E4XBV6zRYuY">Cambiar vídeo 3</button>
+
+  <script>
+    function cambiarVideo(video) {
+      player.loadVideoById({
+        'videoId': video,
+      });
+    }
+
+    document.querySelectorAll('.change_video').forEach(function(button) {
+      button.addEventListener('click', function (e) {
+        cambiarVideo(e.target.dataset.video);
+      });
+    });
+  </script>
+</body>
+
+</html>
